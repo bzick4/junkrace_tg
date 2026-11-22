@@ -23,6 +23,30 @@
     <div id="loading"><div id="loading-bar"></div></div>
     <div id="rotate"><div class="icon">↻</div>Поверни телефон горизонтально</div>
     <script>
+      // Захват мыши: Safari (и Mac, и iPhone) отказывает в pointer lock без клика игрока — промис падает
+      // с NotSupportedError, Unity принимает это за крах игры и показывает окно ошибки. Отказ глотаем:
+      // Unity сама попросит захват ещё раз по следующему клику, и тогда браузер разрешит.
+      (function () {
+        var proto = window.Element && Element.prototype;
+        var orig = proto && proto.requestPointerLock;
+        if (orig) proto.requestPointerLock = function () {
+          try {
+            var r = orig.apply(this, arguments);
+            if (r && typeof r.catch === "function") r.catch(function () { });
+            return r;
+          } catch (e) { }
+        };
+        // Тот же отказ, если пришёл мимо обёртки (до Unity: её обработчик ошибок регистрируется позже).
+        window.addEventListener("unhandledrejection", function (e) {
+          var r = e.reason, name = r && r.name;
+          if (name === "NotSupportedError" || name === "NotAllowedError" || name === "WrongDocumentError") {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            console.warn("Пропущено (браузер отказал):", r);
+          }
+        });
+      })();
+
       // Настройка Telegram (зовёт и игра, и страница сама): на весь экран, без закрытия свайпом вниз,
       // ориентация фиксируется, когда телефон уже лежит горизонтально.
       window.junkTelegramSetup = function () {
@@ -63,13 +87,13 @@
 
       var mobile = /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
       var script = document.createElement("script");
-      script.src = "Build/junkrace_tg.data.unityweb.loader.js";
+      script.src = "Build/junk.loader.js";
       script.onload = function () {
         createUnityInstance(document.querySelector("#unity-canvas"), {
           arguments: [],
-          dataUrl: "Build/junkrace_tg.data.unityweb.data.unityweb",
-          frameworkUrl: "Build/junkrace_tg.data.unityweb.framework.js.unityweb",
-          codeUrl: "Build/junkrace_tg.data.unityweb.wasm.unityweb",
+          dataUrl: "Build/junk.data.unityweb",
+          frameworkUrl: "Build/junk.framework.js.unityweb",
+          codeUrl: "Build/junk.wasm.unityweb",
           streamingAssetsUrl: "StreamingAssets",
           companyName: "DefaultCompany",
           productName: "JunkRace",
