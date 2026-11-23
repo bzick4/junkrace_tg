@@ -98,8 +98,8 @@
           companyName: "DefaultCompany",
           productName: "JunkRace",
           productVersion: "0.5",
-          // Телефон: экран с плотностью 3x рисовать в полном разрешении слишком тяжело — не больше 1.5x.
-          devicePixelRatio: mobile ? Math.min(window.devicePixelRatio || 1, 1.5) : undefined,
+          // Холст — в полном разрешении экрана: интерфейс и текст чёткие. 3D игра сама рисует
+          // в уменьшенном масштабе на телефоне (QualitySetup: не больше ~1000 строк по высоте).
         }, function (progress) {
           document.getElementById("loading-bar").style.width = (100 * progress) + "%";
         }).then(function () {
