@@ -1,1 +1,323 @@
-ц
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width,
+                   initial-scale=1,
+                   viewport-fit=cover">
+
+    <title>JunkRace — Меню</title>
+
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            min-height: 100%;
+            background: #1c1816;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #ffe0b1;
+        }
+
+        .container {
+            min-height: 100dvh;
+            max-width: 520px;
+            margin: auto;
+
+            padding: 30px 20px;
+            padding-top: max(30px, env(safe-area-inset-top));
+            padding-bottom: max(30px, env(safe-area-inset-bottom));
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .header {
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 75px;
+            margin-bottom: 12px;
+            filter: drop-shadow(0 6px 12px #0009);
+        }
+
+        h1 {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin: 0;
+
+            color: #ffae51;
+            text-shadow:
+                3px 3px 0 #67361d,
+                5px 5px 0 #0b0908;
+        }
+
+        .subtitle {
+            color: #d4b8a0;
+            font-size: 15px;
+            margin-top: 15px;
+        }
+
+        .divider {
+            height: 9px;
+            border-radius: 3px;
+
+            background: repeating-linear-gradient(
+                90deg,
+                #e4c18b 0px,
+                #e4c18b 18px,
+                #29221d 18px,
+                #29221d 36px
+            );
+
+            transform: skewX(-15deg);
+            opacity: 0.8;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .race-button {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            min-height: 115px;
+            padding: 18px;
+
+            border: 3px solid #b17c4c;
+            border-radius: 16px;
+
+            text-decoration: none;
+            color: #ffe0b1;
+
+            box-shadow:
+                0 6px 0 #100d0b,
+                inset 0 1px 0 #ffffff30;
+
+            transition:
+                transform 0.15s,
+                box-shadow 0.15s;
+        }
+
+        .race-button:active {
+            transform: translateY(5px);
+            box-shadow: 0 1px 0 #100d0b;
+        }
+
+        .telegram {
+            background: linear-gradient(
+                135deg,
+                #a45b26,
+                #60351f
+            );
+        }
+
+        .itch {
+            background: linear-gradient(
+                135deg,
+                #51463d,
+                #302923
+            );
+        }
+
+        .button-icon {
+            font-size: 43px;
+            flex-shrink: 0;
+        }
+
+        .button-text {
+            flex: 1;
+        }
+
+        .button-title {
+            font-size: 21px;
+            font-weight: 900;
+            margin-bottom: 7px;
+        }
+
+        .button-description {
+            font-size: 13px;
+            color: #e5c6a5;
+        }
+
+        .arrow {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            color: #988575;
+            font-size: 12px;
+            margin-top: 12px;
+        }
+
+        @media (max-height: 590px) {
+            .container {
+                justify-content: flex-start;
+                gap: 16px;
+            }
+
+            .logo {
+                font-size: 45px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .race-button {
+                min-height: 90px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header class="header">
+        <div class="logo">🏎️</div>
+
+        <h1>JUNKRACE</h1>
+
+        <p class="subtitle">
+            Собери тачку. Выживи. Победи.
+        </p>
+    </header>
+
+    <div class="divider"></div>
+
+    <main class="buttons">
+
+        <!-- TELEGRAM -->
+        <a
+            id="telegramButton"
+            class="race-button telegram"
+            href="https://t.me/Junkrace_bot?startapp&mode=fullscreen">
+
+            <div class="button-icon">📱</div>
+
+            <div class="button-text">
+                <div class="button-title">
+                    Играть в Telegram
+                </div>
+
+                <div class="button-description">
+                    Запустить Mini App
+                </div>
+            </div>
+
+            <div class="arrow">❯</div>
+        </a>
+
+        <!-- ITCH.IO -->
+        <a
+            id="itchButton"
+            class="race-button itch"
+            href="https://bzick4.itch.io/junk-race">
+
+            <div class="button-icon">🌐</div>
+
+            <div class="button-text">
+                <div class="button-title">
+                    Играть на itch.io
+                </div>
+
+                <div class="button-description">
+                    Открыть браузерную версию
+                </div>
+            </div>
+
+            <div class="arrow">❯</div>
+        </a>
+
+    </main>
+
+    <div class="divider"></div>
+
+    <footer class="footer">
+        🏁 Гонка начинается здесь!
+    </footer>
+
+</div>
+
+<script>
+    // ==============================
+    // НАСТРОЙКИ
+    // ==============================
+
+    const telegram = window.Telegram?.WebApp;
+
+    const gameUrl =
+        "https://t.me/Junkrace_bot?startapp&mode=fullscreen";
+
+    const itchUrl =
+        "https://bzick4.itch.io/junk-race";
+
+    // ==============================
+    // TELEGRAM MINI APP
+    // ==============================
+
+    if (telegram) {
+        telegram.ready();
+        telegram.expand();
+
+        telegram.setHeaderColor("#1c1816");
+        telegram.setBackgroundColor("#1c1816");
+    }
+
+    // ==============================
+    // ИГРАТЬ В TELEGRAM
+    // ==============================
+
+    document
+        .getElementById("telegramButton")
+        .addEventListener("click", function(event) {
+
+            if (telegram) {
+                event.preventDefault();
+
+                // Открываем главное Mini App бота.
+                telegram.openTelegramLink(gameUrl);
+            }
+        });
+
+    // ==============================
+    // ИГРАТЬ НА ITCH.IO
+    // ==============================
+
+    document
+        .getElementById("itchButton")
+        .addEventListener("click", function(event) {
+
+            if (telegram) {
+                event.preventDefault();
+
+                // Открываем itch.io через Telegram.
+                telegram.openLink(itchUrl);
+            }
+        });
+</script>
+
+</body>
+</html>
