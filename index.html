@@ -87,13 +87,13 @@
 
       var mobile = /iPhone|iPad|iPod|Android|Mobile/i.test(navigator.userAgent) || navigator.maxTouchPoints > 1;
       var script = document.createElement("script");
-      script.src = "Build/junkrace_.loader.js";
+      script.src = "Build/junkrace.loader.js";
       script.onload = function () {
         createUnityInstance(document.querySelector("#unity-canvas"), {
           arguments: [],
-          dataUrl: "Build/junkrace_.data.unityweb",
-          frameworkUrl: "Build/junkrace_.framework.js.unityweb",
-          codeUrl: "Build/junkrace_.wasm.unityweb",
+          dataUrl: "Build/junkrace.data.unityweb",
+          frameworkUrl: "Build/junkrace.framework.js.unityweb",
+          codeUrl: "Build/junkrace.wasm.unityweb",
           streamingAssetsUrl: "StreamingAssets",
           companyName: "DefaultCompany",
           productName: "JunkRace",
